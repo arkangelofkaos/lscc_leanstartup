@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import static java.util.Arrays.asList;
 
 public class App {
-    public static final String AppName = "blank-app";
+    public static final String AppName = "blank-java-worker-app";
     private StatusPage statusPage;
 
     public App(Config config) {

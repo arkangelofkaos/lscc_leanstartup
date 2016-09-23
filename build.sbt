@@ -1,7 +1,7 @@
 import com.timgroup.sbtjavaversion.SbtJavaVersionKeys._
 import com.typesafe.sbteclipse.core.EclipsePlugin.{EclipseProjectFlavor, EclipseKeys}
 
-name := "blank-app"
+name := "blank-java-worker-app"
 
 version := "0.0." + sys.env.getOrElse("BUILD_NUMBER", "0-SNAPSHOT")
 
