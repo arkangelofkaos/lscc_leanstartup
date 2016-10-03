@@ -1,5 +1,7 @@
 package com.timgroup.blankapp;
 
+import com.timgroup.structuredevents.Slf4jEventSink;
+import com.timgroup.structuredevents.standardevents.ApplicationStarted;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigParseOptions;
@@ -7,9 +9,11 @@ import com.typesafe.config.ConfigSyntax;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Map;
 import java.util.TimeZone;
 
 import static java.lang.Runtime.getRuntime;
+import static java.util.stream.Collectors.toMap;
 
 public class Launcher {
     public static Config loadConfig(String path) {
@@ -60,5 +64,10 @@ public class Launcher {
                 app.stop();
             }
         });
+
+        LoggerFactory.getLogger(Launcher.class).info("Started file-feed-cache");
+        new Slf4jEventSink(LoggerFactory.getLogger(Launcher.class)).sendEvent(
+                ApplicationStarted.withVersionAndParameters(System.getProperty("timgroup.app.version"), config.entrySet().stream().collect(toMap(Map.Entry::getKey, e -> e.getValue().unwrapped()))).filtered()
+        );
     }
 }
