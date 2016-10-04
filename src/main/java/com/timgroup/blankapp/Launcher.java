@@ -48,6 +48,11 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Syntax: java " + Launcher.class.getName() + " config.properties");
+            System.exit(1);
+        }
+
         setUpTimezone();
         Config config = loadConfig(args[0]);
         setUpLogging(config);
