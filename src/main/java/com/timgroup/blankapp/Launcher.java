@@ -33,9 +33,7 @@ public class Launcher {
         Metrics metrics = new Metrics(metricsConfig(config));
         metrics.addJvmMetrics();
         metrics.start();
-        Runtime.getRuntime().addShutdownHook(new Thread("metrics shutdownHook") {
-            @Override public void run() { metrics.stop(); }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(metrics::stop, "metrics-shutdown"));
     }
 
     private static MetricsConfig metricsConfig(final Config config) {
@@ -61,10 +59,6 @@ public class Launcher {
 
         app.start();
 
-        getRuntime().addShutdownHook(new Thread() {
-            @Override public void run() {
-                app.stop();
-            }
-        });
+        getRuntime().addShutdownHook(new Thread(app::stop, "shutdown"));
     }
 }
