@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.List;
 
+import com.timgroup.structuredevents.StructuredEventMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 

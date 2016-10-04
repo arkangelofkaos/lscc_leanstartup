@@ -2,13 +2,11 @@ package com.timgroup.blankapp;
 
 import java.net.URI;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.timgroup.structuredevents.Event;
-import com.timgroup.structuredevents.EventSink;
+import com.timgroup.structuredevents.LocalEventSink;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.junit.rules.ExternalResource;
@@ -40,7 +38,7 @@ public class ServerRule extends ExternalResource {
     }
 
     public List<Event> events() {
-        return eventSink.events;
+        return eventSink.events();
     }
 
     public App app() {
@@ -55,19 +53,5 @@ public class ServerRule extends ExternalResource {
             throw new IllegalArgumentException("Path must start with '/'");
         }
         return URI.create(String.format("http://localhost:%d%s", app().port(), path));
-    }
-
-    private static final class LocalEventSink implements EventSink {
-        private final List<Event> events = new CopyOnWriteArrayList<>();
-
-        @Override
-        public void sendEvent(Event event) {
-            events.add(event);
-        }
-
-        @Override
-        public void sendWarning(Event event) {
-            events.add(event);
-        }
     }
 }

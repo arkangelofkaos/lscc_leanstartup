@@ -21,6 +21,7 @@ libraryDependencies := Seq(
   ("com.timgroup" % "Tucker" autobump).exclude("javax.servlet", "servlet-api"),
   "com.timgroup" % "tim-logger" autobump,
   "com.timgroup" % "tim-structured-events" autobump,
+  ("com.timgroup" % "tim-structured-events-testing" autobump) % "test",
   "com.typesafe" % "config" % "1.2.1",
   "com.codahale.metrics" % "metrics-core" % "3.0.2",
   "com.codahale.metrics" % "metrics-jvm" % "3.0.2",
