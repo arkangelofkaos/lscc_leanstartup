@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
-import com.timgroup.structuredevents.standardevents.ApplicationStarted;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -15,7 +14,6 @@ import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.instanceOf;
 
 public class LauncherTest {
     @Rule
@@ -28,7 +26,7 @@ public class LauncherTest {
 
     @Test public void
     emits_application_started_event() throws Exception {
-        assertThat(server.events(), hasItem(instanceOf(ApplicationStarted.class)));
+        assertThat(server.events(), hasItem(StructuredEventMatcher.ofType("ApplicationStarted")));
     }
 
     private List<String> read(String url) throws IOException {
