@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toMap;
 
 public class Launcher {
     public static Config loadConfig(String path) {
-        return ConfigFactory.parseFile(new File(path), ConfigParseOptions.defaults().setSyntax(ConfigSyntax.PROPERTIES));
+        return ConfigFactory.parseFile(new File(path), ConfigParseOptions.defaults().setSyntax(ConfigSyntax.PROPERTIES).setAllowMissing(false));
     }
 
     private static void setUpTimezone() {
