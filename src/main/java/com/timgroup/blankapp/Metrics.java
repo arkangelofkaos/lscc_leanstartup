@@ -2,6 +2,7 @@ package com.timgroup.blankapp;
 
 import com.codahale.metrics.JvmAttributeGaugeSet;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.codahale.metrics.jvm.FileDescriptorRatioGauge;
@@ -17,35 +18,29 @@ import java.util.function.Consumer;
 public final class Metrics {
     private final MetricRegistry registry;
 
-    private final Optional<GraphiteReporter> graphiteReporter;
+    private final GraphiteReporter graphiteReporter;
 
     public Metrics(MetricsConfig config) {
         registry = new MetricRegistry();
         graphiteReporter = makeReporter(config);
     }
 
-    private Optional<GraphiteReporter> makeReporter(MetricsConfig config) {
+    private GraphiteReporter makeReporter(MetricsConfig config) {
         if (config.enabled()) {
             final Graphite graphite = new Graphite(new InetSocketAddress(config.host(), config.port()));
-            return Optional.of(GraphiteReporter.forRegistry(registry).prefixedWith(config.prefix()).build(graphite));
+            return GraphiteReporter.forRegistry(registry).prefixedWith(config.prefix()).build(graphite);
         }
-        return Optional.empty();
+        return null;
     }
 
     public void start() {
-        graphiteReporter.ifPresent(new Consumer<GraphiteReporter>() {
-            @Override public void accept(GraphiteReporter graphiteReporter) {
-                graphiteReporter.start(10, TimeUnit.SECONDS);
-            }
-        });
+        if (graphiteReporter != null)
+            graphiteReporter.start(10, TimeUnit.SECONDS);
     }
 
     public void stop() {
-        graphiteReporter.ifPresent(new Consumer<GraphiteReporter>() {
-            @Override public void accept(GraphiteReporter graphiteReporter) {
-                graphiteReporter.stop();
-            }
-        });
+        if (graphiteReporter != null)
+            graphiteReporter.stop();
     }
 
     public void addJvmMetrics() {
