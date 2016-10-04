@@ -35,12 +35,16 @@ public class StatusPage {
         infoServer.start();
     }
 
-    public void  stop() {
+    public void stop() {
         infoServer.stop();
         try {
             scheduler.stop();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int port() {
+        return infoServer.getBase().getPort();
     }
 }

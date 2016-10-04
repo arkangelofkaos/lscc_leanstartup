@@ -28,6 +28,10 @@ public class App {
         this.eventSink = eventSink;
     }
 
+    public int port() {
+        return statusPage.port();
+    }
+
     public void start() {
         statusPage.start();
         log.info("Started {}", AppName);
@@ -41,6 +45,3 @@ public class App {
         statusPage.stop();
     }
 }
-
-
-

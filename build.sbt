@@ -15,8 +15,6 @@ EclipseKeys.withSource := true
 
 resolvers += "TIM Group Repo" at "http://repo/nexus/content/groups/public"
 
-parallelExecution in Test := false
-
 UploadToProductstore.uploadToProductstoreSettings
 
 libraryDependencies := Seq(

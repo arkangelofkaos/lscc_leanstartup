@@ -3,7 +3,7 @@ package com.timgroup.blankapp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 
 import org.junit.Rule;
@@ -21,7 +21,7 @@ public class LauncherTest {
 
     @Test public void
     status_page_contains_app_name() throws Exception {
-        assertThat(read("http://localhost:8000/info/status"), hasItem(containsString(AppName)));
+        assertThat(read(server.uri("/info/status")), hasItem(containsString(AppName)));
     }
 
     @Test public void
@@ -29,8 +29,8 @@ public class LauncherTest {
         assertThat(server.events(), hasItem(StructuredEventMatcher.ofType("ApplicationStarted")));
     }
 
-    private List<String> read(String url) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(new URL(url).openConnection().getInputStream()));
+    private List<String> read(URI uri) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openConnection().getInputStream()));
 
         return in.lines().collect(toList());
     }
