@@ -1,6 +1,6 @@
 <configuration>
 
-    <appender name="RollingFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${log.directory}/application-%d{yyyy-MM-dd}.log.gz</FileNamePattern>
             <maxHistory>3</maxHistory>
@@ -10,7 +10,7 @@
         </encoder>
     </appender>
 
-    <appender name="zeromq_direct" class="com.timgroup.logger.ZmtpAppender">
+    <appender name="ZEROMQ_DIRECT" class="com.timgroup.logger.ZmtpAppender">
         <host>127.0.0.1</host>
         <port>5222</port>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
@@ -21,8 +21,8 @@
         </encoder>
     </appender>
 
-    <appender name="zeromq" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="zeromq_direct"/>
+    <appender name="ZEROMQ" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ZEROMQ_DIRECT"/>
         <queueSize>500</queueSize>
     </appender>
 
@@ -37,8 +37,8 @@
     </logger>
 
     <root level="INFO">
-        <appender-ref ref="RollingFILE" />
-        <appender-ref ref="zeromq"/>
+        <appender-ref ref="FILE" />
+        <appender-ref ref="ZEROMQ"/>
     </root>
 
 </configuration>
