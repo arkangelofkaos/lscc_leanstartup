@@ -18,7 +18,7 @@ resolvers += "TIM Group Repo" at "http://repo/nexus/content/groups/public"
 UploadToProductstore.uploadToProductstoreSettings
 
 libraryDependencies := Seq(
-  ("com.timgroup" % "Tucker" % autobump).exclude("javax.servlet", "servlet-api"),
+  "com.timgroup" % "Tucker" % autobump,
   "com.timgroup" % "tim-logger" % autobump,
   "com.timgroup" % "tim-structured-events" % autobump,
   "com.timgroup" % "tim-structured-events-testing" % autobump % "test",
