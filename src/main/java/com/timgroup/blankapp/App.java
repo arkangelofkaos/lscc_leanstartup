@@ -7,6 +7,7 @@ import com.timgroup.structuredevents.EventSink;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
 import com.timgroup.tucker.info.component.JvmVersionComponent;
 import com.typesafe.config.Config;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static java.util.Arrays.asList;
@@ -17,6 +18,7 @@ public class App {
     private final StatusPage statusPage;
     private final EventSink eventSink;
     private final Map<String, Object> configParameters;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public App(Config config, EventSink eventSink) {
         this.statusPage = new StatusPage(AppName,
@@ -28,13 +30,14 @@ public class App {
 
     public void start() {
         statusPage.start();
-        LoggerFactory.getLogger(App.class).info("Started " + AppName);
+        log.info("Started {}", AppName);
 
         eventSink.sendEvent(ApplicationStarted.withVersionAndParameters(System.getProperty("timgroup.app.version"),
                 configParameters).filtered());
     }
 
     public void stop() {
+        log.info("Stopping {}", AppName);
         statusPage.stop();
     }
 }
