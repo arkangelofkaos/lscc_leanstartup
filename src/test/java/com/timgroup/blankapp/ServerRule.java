@@ -20,7 +20,7 @@ public class ServerRule extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         Config fromConfigFile = loadConfig("config.properties");
-        Config config = ConfigFactory.parseMap(overrideConfigProperties()).resolveWith(fromConfigFile);
+        Config config = ConfigFactory.parseMap(overrideConfigProperties()).withFallback(fromConfigFile);
         app = new App(config, eventSink);
         app.start();
     }
