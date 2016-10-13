@@ -9,6 +9,9 @@ version := "0.0." + sys.env.getOrElse("BUILD_NUMBER", "0-SNAPSHOT")
 
 javaVersion in ThisBuild := "1.8"
 
+javacOptions += "-g"
+javacOptions += "-parameters"
+
 crossPaths := false
 
 EclipseKeys.projectFlavor := EclipseProjectFlavor.Java
