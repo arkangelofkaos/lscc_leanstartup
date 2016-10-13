@@ -3,6 +3,8 @@ import com.typesafe.sbteclipse.core.EclipsePlugin.{EclipseProjectFlavor, Eclipse
 
 name := "blank-java-worker-app"
 
+organization := "com.timgroup"
+
 version := "0.0." + sys.env.getOrElse("BUILD_NUMBER", "0-SNAPSHOT")
 
 javaVersion in ThisBuild := "1.8"
