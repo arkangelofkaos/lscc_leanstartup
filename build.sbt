@@ -28,9 +28,9 @@ libraryDependencies := Seq(
   "com.timgroup" % "tim-structured-events" % autobump,
   "com.timgroup" % "tim-structured-events-testing" % autobump % "test",
   "com.typesafe" % "config" % "1.2.1",
-  "com.codahale.metrics" % "metrics-core" % "3.0.2",
-  "com.codahale.metrics" % "metrics-jvm" % "3.0.2",
-  "com.codahale.metrics" % "metrics-graphite" % "3.0.2",
+  "io.dropwizard.metrics" % "metrics-core" % "3.1.2",
+  "io.dropwizard.metrics" % "metrics-jvm" % "3.1.2",
+  "io.dropwizard.metrics" % "metrics-graphite" % "3.1.2",
 
   "junit" % "junit" % "4.12" % "test",
   "org.hamcrest" % "hamcrest-core" % "1.3" % "test",
