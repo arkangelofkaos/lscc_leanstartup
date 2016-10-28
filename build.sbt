@@ -1,5 +1,5 @@
 import com.timgroup.sbtjavaversion.SbtJavaVersionKeys._
-import com.typesafe.sbteclipse.core.EclipsePlugin.{EclipseProjectFlavor, EclipseKeys}
+import com.typesafe.sbteclipse.core.EclipsePlugin.{EclipseKeys, EclipseProjectFlavor}
 
 name := "blank-java-worker-app"
 
@@ -11,6 +11,10 @@ javaVersion in ThisBuild := "1.8"
 
 javacOptions += "-g"
 javacOptions += "-parameters"
+
+publishTo in ThisBuild := Some("publish-repo" at "http://repo.youdevise.com:8081/nexus/content/repositories/yd-release-candidates")
+
+credentials in ThisBuild += Credentials(new File("/etc/sbt/credentials"))
 
 crossPaths := false
 
@@ -37,3 +41,7 @@ libraryDependencies := Seq(
   "org.hamcrest" % "hamcrest-library" % "1.3" % "test",
   "com.novocode" % "junit-interface" % "0.11" % "test"
   )
+
+publishArtifact in (Compile, packageDoc) := false
+
+overridePublishSettings
