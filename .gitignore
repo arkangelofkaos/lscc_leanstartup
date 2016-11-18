@@ -9,3 +9,4 @@ log.directory_IS_UNDEFINED
 .classpath
 .settings/
 bin/
+blank-java-worker-app.iml

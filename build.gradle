@@ -1,0 +1,84 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'autobumper'
+apply plugin: 'gradle-one-jar'
+apply plugin: 'application'
+
+ext {
+    buildNumber = System.getenv("BUILD_NUMBER") ?: System.getenv("TRAVIS_BUILD_NUMBER")
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url "${repoUrl}/groups/public"
+    }
+}
+
+if (buildNumber) version = '1.0.' + buildNumber
+
+dependencies {
+    compile "com.timgroup:Tucker:autobump"
+    compile "com.timgroup:tim-logger:autobump"
+    compile "com.timgroup:tim-structured-events:autobump"
+    testCompile "com.timgroup:tim-structured-events-testing:autobump"
+    compile "com.typesafe:config:1.2.1"
+    compile "io.dropwizard.metrics:metrics-core:3.1.2"
+    compile "io.dropwizard.metrics:metrics-jvm:3.1.2"
+    compile "io.dropwizard.metrics:metrics-graphite:3.1.2"
+
+    testCompile "junit:junit:4.12"
+    testCompile "org.hamcrest:hamcrest-core:1.3"
+    testCompile "org.hamcrest:hamcrest-library:1.3"
+    testCompile "com.novocode:junit-interface:0.11"
+}
+
+mainClassName = 'com.timgroup.blankapp.Launcher'
+
+jar {
+    manifest {
+        if (version) attributes("Implementation-Version": version)
+    }
+}
+
+task oneJar(type: OneJar) {
+    mainClass = mainClassName
+    manifest {
+        attributes 'One-Jar-URL-Factory': 'com.simontuffs.onejar.JarClassLoader$OneJarURLFactory'
+        attributes("X-Java-Version": "8")
+    }
+    additionalDir = file('src/oneJar')
+}
+
+build.dependsOn(oneJar)
+
+buildscript {
+    repositories {
+        maven {
+            url "${repoUrl}/groups/public"
+        }
+    }
+
+    dependencies {
+        classpath "com.timgroup:gradle-autobumper:1.0.+"
+        classpath group: 'com.github.rholder', name: 'gradle-one-jar', version: '1.0.4'
+    }
+}
+
+allprojects {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+group = 'com.timgroup'
+
+idea {
+    project {
+        ipr.withXml { xmlFile ->
+
+            xmlFile.node.component
+                    .find { it.@name == 'VcsDirectoryMappings' }
+                    .mapping.@vcs = 'Git'
+        }
+    }
+}
