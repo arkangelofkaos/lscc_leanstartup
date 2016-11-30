@@ -1,4 +1,4 @@
-package com.timgroup.blankapp;
+package com.timgroup.securefilesender;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import com.timgroup.structuredevents.StructuredEventMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.timgroup.blankapp.App.AppName;
+import static com.timgroup.securefilesender.App.AppName;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;

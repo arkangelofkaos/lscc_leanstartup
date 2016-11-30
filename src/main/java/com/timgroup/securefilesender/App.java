@@ -1,8 +1,8 @@
-package com.timgroup.blankapp;
+package com.timgroup.securefilesender;
 
 import java.util.Map;
 
-import com.timgroup.blankapp.monitoring.StatusPage;
+import com.timgroup.securefilesender.monitoring.StatusPage;
 import com.timgroup.structuredevents.EventSink;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
 import com.timgroup.tucker.info.component.JvmVersionComponent;
@@ -14,7 +14,7 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toMap;
 
 public class App {
-    public static final String AppName = "blank-java-worker-app";
+    public static final String AppName = "secure-file-sender";
     private final StatusPage statusPage;
     private final EventSink eventSink;
     private final Map<String, Object> configParameters;

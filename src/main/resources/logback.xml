@@ -32,7 +32,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.timgroup.blankapp.App">
+    <logger name="com.timgroup.securefilesender.App">
         <appender-ref ref="CONSOLE" />
     </logger>
 

@@ -1,4 +1,4 @@
-package com.timgroup.blankapp.monitoring;
+package com.timgroup.securefilesender.monitoring;
 
 import com.timgroup.tucker.info.Component;
 import com.timgroup.tucker.info.async.AsyncComponentScheduler;

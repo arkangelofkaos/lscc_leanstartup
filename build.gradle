@@ -33,7 +33,7 @@ dependencies {
     testCompile "com.novocode:junit-interface:0.11"
 }
 
-mainClassName = 'com.timgroup.blankapp.Launcher'
+mainClassName = 'com.timgroup.securefilesender.Launcher'
 
 jar {
     manifest {
