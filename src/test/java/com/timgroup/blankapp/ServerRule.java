@@ -1,4 +1,4 @@
-package com.timgroup.securefilesender;
+package com.timgroup.blankapp;
 
 import java.net.URI;
 import java.util.Collections;
@@ -11,7 +11,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.junit.rules.ExternalResource;
 
-import static com.timgroup.securefilesender.Launcher.loadConfig;
+import static com.timgroup.blankapp.Launcher.loadConfig;
 
 public class ServerRule extends ExternalResource {
     private App app;

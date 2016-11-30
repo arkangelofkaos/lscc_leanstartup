@@ -1,4 +1,4 @@
-package com.timgroup.securefilesender;
+package com.timgroup.blankapp;
 
 public interface MetricsConfig {
     boolean enabled();

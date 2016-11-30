@@ -1,4 +1,4 @@
-package com.timgroup.securefilesender;
+package com.timgroup.blankapp;
 
 import java.io.File;
 import java.util.TimeZone;
