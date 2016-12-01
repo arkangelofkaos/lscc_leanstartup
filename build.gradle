@@ -3,6 +3,7 @@ apply plugin: 'idea'
 apply plugin: 'autobumper'
 apply plugin: 'gradle-one-jar'
 apply plugin: 'application'
+apply plugin: 'jarmangit'
 
 ext {
     buildNumber = System.getenv("BUILD_NUMBER") ?: System.getenv("TRAVIS_BUILD_NUMBER")
@@ -60,7 +61,8 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.timgroup:gradle-autobumper:1.0.+"
+        classpath group: "com.timgroup", name: "gradle-autobumper", version: "1.0.+"
+        classpath group: "com.timgroup", name: "gradle-jarmangit", version: "1.0.+"
         classpath group: 'com.github.rholder', name: 'gradle-one-jar', version: '1.0.4'
     }
 }
