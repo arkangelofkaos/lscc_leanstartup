@@ -1,7 +1,5 @@
 package com.timgroup.blankapp;
 
-import java.util.Map;
-
 import com.timgroup.blankapp.monitoring.StatusPage;
 import com.timgroup.structuredevents.EventSink;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
@@ -10,7 +8,9 @@ import com.typesafe.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static java.util.Arrays.asList;
+import java.util.Map;
+
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toMap;
 
 public class App {
@@ -23,7 +23,7 @@ public class App {
     public App(Config config, EventSink eventSink) {
         this.statusPage = new StatusPage(AppName,
                                          config.getInt("port"),
-                                         asList(new JvmVersionComponent()));
+                                         singletonList(new JvmVersionComponent()));
         this.configParameters = config.entrySet().stream().collect(toMap(Map.Entry::getKey, e -> e.getValue().unwrapped()));
         this.eventSink = eventSink;
     }

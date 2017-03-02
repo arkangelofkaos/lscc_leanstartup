@@ -29,8 +29,7 @@ public class ServerRule extends ExternalResource {
     protected void after() {
         try {
             app.stop();
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { /* */ }
     }
 
     public Map<String, Object> overrideConfigProperties() {

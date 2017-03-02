@@ -2,6 +2,7 @@
 /build
 /out
 /log
+/classes
 /.gradle
 /.idea
 /.settings

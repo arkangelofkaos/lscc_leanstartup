@@ -1,16 +1,17 @@
 package com.timgroup.blankapp;
 
+import com.timgroup.structuredevents.StructuredEventMatcher;
+import org.junit.Rule;
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.List;
 
-import com.timgroup.structuredevents.StructuredEventMatcher;
-import org.junit.Rule;
-import org.junit.Test;
-
 import static com.timgroup.blankapp.App.AppName;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -31,8 +32,8 @@ public class LauncherTest {
     }
 
     private List<String> read(URI uri) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openConnection().getInputStream()));
-
-        return in.lines().collect(toList());
+        try(BufferedReader in = new BufferedReader(new InputStreamReader(uri.toURL().openConnection().getInputStream(), UTF_8))) {
+            return in.lines().collect(toList());
+        }
     }
 }
