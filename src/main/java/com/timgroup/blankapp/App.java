@@ -1,14 +1,15 @@
 package com.timgroup.blankapp;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
+
 import com.timgroup.blankapp.monitoring.StatusPage;
 import com.timgroup.structuredevents.EventSink;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
 import com.timgroup.tucker.info.component.JvmVersionComponent;
-import com.typesafe.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toMap;
@@ -20,11 +21,12 @@ public class App {
     private final Map<String, Object> configParameters;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    public App(Config config, EventSink eventSink) {
+    public App(Properties config, EventSink eventSink) {
+        int port = Optional.ofNullable(config.getProperty("port")).map(Integer::parseInt).orElseThrow(() -> new IllegalStateException("No 'port' property"));
         this.statusPage = new StatusPage(AppName,
-                                         config.getInt("port"),
+                                         port,
                                          singletonList(new JvmVersionComponent()));
-        this.configParameters = config.entrySet().stream().collect(toMap(Map.Entry::getKey, e -> e.getValue().unwrapped()));
+        this.configParameters = config.entrySet().stream().collect(toMap(e -> String.valueOf(e.getKey()), Map.Entry::getValue));
         this.eventSink = eventSink;
     }
 

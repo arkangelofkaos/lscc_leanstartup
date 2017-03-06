@@ -22,7 +22,6 @@ dependencies {
     compile "com.timgroup:Tucker:autobump"
     compile "com.timgroup:tim-logger:autobump"
     compile "com.timgroup:tim-structured-events:autobump"
-    compile "com.typesafe:config:1.2.1"
     compile "io.dropwizard.metrics:metrics-core:3.1.2"
     compile "io.dropwizard.metrics:metrics-jvm:3.1.2"
     compile "io.dropwizard.metrics:metrics-graphite:3.1.2"

@@ -4,14 +4,11 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.timgroup.structuredevents.Event;
 import com.timgroup.structuredevents.LocalEventSink;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import org.junit.rules.ExternalResource;
-
-import static com.timgroup.blankapp.Launcher.loadConfig;
 
 public class ServerRule extends ExternalResource {
     private App app;
@@ -19,9 +16,11 @@ public class ServerRule extends ExternalResource {
 
     @Override
     protected void before() throws Throwable {
-        Config fromConfigFile = loadConfig("config.properties");
-        Config config = ConfigFactory.parseMap(overrideConfigProperties()).withFallback(fromConfigFile);
-        app = new App(config, eventSink);
+        Properties properties = new Properties();
+        overrideConfigProperties().forEach((k, v) -> {
+            properties.setProperty(k, String.valueOf(v));
+        });
+        app = new App(properties, eventSink);
         app.start();
     }
 
