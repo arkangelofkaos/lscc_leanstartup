@@ -22,9 +22,9 @@ dependencies {
     compile "com.timgroup:Tucker:autobump"
     compile "com.timgroup:tim-logger:autobump"
     compile "com.timgroup:tim-structured-events:autobump"
-    compile "io.dropwizard.metrics:metrics-core:3.1.2"
-    compile "io.dropwizard.metrics:metrics-jvm:3.1.2"
-    compile "io.dropwizard.metrics:metrics-graphite:3.1.2"
+    compile "io.dropwizard.metrics:metrics-core:3.2.2"
+    compile "io.dropwizard.metrics:metrics-jvm:3.2.2"
+    compile "io.dropwizard.metrics:metrics-graphite:3.2.2"
 
     testCompile "junit:junit:4.12"
     testCompile "org.hamcrest:hamcrest-core:1.3"
