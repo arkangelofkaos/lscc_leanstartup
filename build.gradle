@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'autobumper'
 apply plugin: 'gradle-one-jar'
 apply plugin: 'jarmangit'
@@ -9,14 +8,15 @@ ext {
     mainClassName = 'com.timgroup.blankapp.Launcher'
 }
 
+group = 'com.timgroup'
+if (buildNumber) version = '1.0.' + buildNumber
+
 repositories {
-    mavenLocal()
     maven {
+        name "nexus"
         url "${repoUrl}/groups/public"
     }
 }
-
-if (buildNumber) version = '1.0.' + buildNumber
 
 dependencies {
     compile "com.timgroup:Tucker:autobump"
@@ -41,8 +41,21 @@ task run(type: JavaExec) {
 
 jar {
     manifest {
-        if (version) attributes("Implementation-Version": version)
+        attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': 'TIM Group Ltd'
+        )
     }
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+    options.encoding = "UTF-8"
+    options.incremental = true
+    options.deprecation = true
+    options.compilerArgs << "-parameters"
 }
 
 task oneJar(type: OneJar) {
@@ -56,6 +69,36 @@ task oneJar(type: OneJar) {
 
 build.dependsOn(oneJar)
 
+apply plugin: 'maven-publish'
+
+publishing {
+    repositories {
+        maven {
+            url "${project.repoUrl}/repositories/yd-release-candidates"
+            credentials {
+                username = project.repoUsername
+                password = project.repoPassword
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId project.ext.has('artifactId') ? project.ext.artifactId
+                    : project == rootProject ? project.name
+                    : rootProject.name + "-" + project.name
+            from components.java
+            artifact(sourcesJar) {
+                classifier "sources"
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
 buildscript {
     repositories {
         maven {
@@ -67,23 +110,5 @@ buildscript {
         classpath group: "com.timgroup", name: "gradle-autobumper", version: "1.0.+"
         classpath group: "com.timgroup", name: "gradle-jarmangit", version: "1.0.+"
         classpath group: 'com.github.rholder', name: 'gradle-one-jar', version: '1.0.4'
-    }
-}
-
-allprojects {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
-
-group = 'com.timgroup'
-
-idea {
-    project {
-        ipr.withXml { xmlFile ->
-
-            xmlFile.node.component
-                    .find { it.@name == 'VcsDirectoryMappings' }
-                    .mapping.@vcs = 'Git'
-        }
     }
 }
