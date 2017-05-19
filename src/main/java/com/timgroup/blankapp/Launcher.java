@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.TimeZone;
 
+import com.timgroup.logger.FilebeatAppender;
 import com.timgroup.structuredevents.Slf4jEventSink;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +31,8 @@ public class Launcher {
     }
 
     private static void setUpLogging(Properties config) {
-        System.setProperty("log.directory", config.getProperty("log.directory"));
-        System.setProperty("log.tags", config.getProperty("log.tags"));
-        System.setProperty("timgroup.app.version", Launcher.class.getPackage().getImplementationVersion() != null
-                ? Launcher.class.getPackage().getImplementationVersion() : "");
+        FilebeatAppender.configureLoggingProperties(config, Launcher.class);
+        System.setProperty("timgroup.app.version", Optional.ofNullable(Launcher.class.getPackage().getImplementationVersion()).orElse(""));
     }
 
     private static void setUpMetrics(Properties config) {

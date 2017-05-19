@@ -10,21 +10,7 @@
         </encoder>
     </appender>
 
-    <appender name="ZEROMQ_DIRECT" class="com.timgroup.logger.ZmtpAppender">
-        <host>127.0.0.1</host>
-        <port>5222</port>
-        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="com.timgroup.logger.LogstashLayout">
-                <tags>${log.tags}</tags>
-                <sourceVersion>${timgroup.app.version}</sourceVersion>
-            </layout>
-        </encoder>
-    </appender>
-
-    <appender name="ZEROMQ" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="ZEROMQ_DIRECT"/>
-        <queueSize>500</queueSize>
-    </appender>
+    <appender name="STRUCTURED_LOGGING" class="com.timgroup.logger.FilebeatAppender"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -38,7 +24,7 @@
 
     <root level="INFO">
         <appender-ref ref="FILE" />
-        <appender-ref ref="ZEROMQ"/>
+        <appender-ref ref="STRUCTURED_LOGGING"/>
     </root>
 
 </configuration>

@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.timgroup.blankapp.monitoring.StatusPage;
 import com.timgroup.structuredevents.EventSink;
+import com.timgroup.structuredevents.heartbeat.LoggingHeartbeatScheduler;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
 import com.timgroup.tucker.info.component.JvmVersionComponent;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import static java.util.stream.Collectors.toMap;
 public class App {
     public static final String AppName = "blank-java-worker-app";
     private final StatusPage statusPage;
+    private final LoggingHeartbeatScheduler loggingHeartbeatScheduler;
     private final EventSink eventSink;
     private final Map<String, Object> configParameters;
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -28,6 +30,7 @@ public class App {
                                          singletonList(new JvmVersionComponent()));
         this.configParameters = config.entrySet().stream().collect(toMap(e -> String.valueOf(e.getKey()), Map.Entry::getValue));
         this.eventSink = eventSink;
+        this.loggingHeartbeatScheduler = new LoggingHeartbeatScheduler(eventSink);
     }
 
     public int port() {
@@ -36,6 +39,7 @@ public class App {
 
     public void start() {
         statusPage.start();
+        loggingHeartbeatScheduler.start();
         log.info("Started {}", AppName);
 
         eventSink.sendEvent(ApplicationStarted.withVersionAndParameters(System.getProperty("timgroup.app.version"),
@@ -45,5 +49,6 @@ public class App {
     public void stop() {
         log.info("Stopping {}", AppName);
         statusPage.stop();
+        loggingHeartbeatScheduler.stop();
     }
 }
