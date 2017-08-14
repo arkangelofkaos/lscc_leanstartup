@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-import com.timgroup.blankapp.monitoring.StatusPage;
 import com.timgroup.structuredevents.EventSink;
 import com.timgroup.structuredevents.heartbeat.LoggingHeartbeatScheduler;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
@@ -17,7 +16,7 @@ import static java.util.stream.Collectors.toMap;
 
 public class App {
     public static final String AppName = "blank-java-worker-app";
-    private final StatusPage statusPage;
+    private final JettyService jettyService;
     private final LoggingHeartbeatScheduler loggingHeartbeatScheduler;
     private final EventSink eventSink;
     private final Map<String, Object> configParameters;
@@ -25,20 +24,20 @@ public class App {
 
     public App(Properties config, EventSink eventSink) {
         int port = Optional.ofNullable(config.getProperty("port")).map(Integer::parseInt).orElseThrow(() -> new IllegalStateException("No 'port' property"));
-        this.statusPage = new StatusPage(AppName,
-                                         port,
-                                         singletonList(new JvmVersionComponent()));
+        this.jettyService = new JettyService(AppName,
+                                             port,
+                                             singletonList(new JvmVersionComponent()));
         this.configParameters = config.entrySet().stream().collect(toMap(e -> String.valueOf(e.getKey()), Map.Entry::getValue));
         this.eventSink = eventSink;
         this.loggingHeartbeatScheduler = new LoggingHeartbeatScheduler(eventSink);
     }
 
     public int port() {
-        return statusPage.port();
+        return jettyService.port();
     }
 
     public void start() {
-        statusPage.start();
+        jettyService.start();
         loggingHeartbeatScheduler.start();
         log.info("Started {}", AppName);
 
@@ -48,7 +47,7 @@ public class App {
 
     public void stop() {
         log.info("Stopping {}", AppName);
-        statusPage.stop();
+        jettyService.stop();
         loggingHeartbeatScheduler.stop();
     }
 }
