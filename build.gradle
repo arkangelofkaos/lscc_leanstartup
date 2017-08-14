@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'com.timgroup.autobumper'
-apply plugin: 'gradle-one-jar'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'com.timgroup.jarmangit'
 
 ext {
@@ -48,6 +48,19 @@ jar {
     }
 }
 
+shadowJar {
+    manifest {
+        attributes(
+                "X-Java-Version": "8",
+                "Main-Class": mainClassName
+        )
+    }
+}
+
+task runShadow(type: Exec, dependsOn: shadowJar) {
+    commandLine 'java', '-jar', tasks.shadowJar.archivePath, 'config.properties'
+}
+
 tasks.withType(JavaCompile) {
     sourceCompatibility = "1.8"
     targetCompatibility = "1.8"
@@ -57,16 +70,7 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters"
 }
 
-task oneJar(type: OneJar) {
-    mainClass = mainClassName
-    manifest {
-        attributes 'One-Jar-URL-Factory': 'com.simontuffs.onejar.JarClassLoader$OneJarURLFactory'
-        attributes("X-Java-Version": "8")
-    }
-    additionalDir = file('src/oneJar')
-}
-
-build.dependsOn(oneJar)
+assemble.dependsOn(shadowJar)
 
 apply plugin: 'maven-publish'
 
@@ -106,8 +110,8 @@ buildscript {
     }
 
     dependencies {
-        classpath group: "com.timgroup", name: "gradle-autobumper", version: "1.1.+"
-        classpath group: "com.timgroup", name: "gradle-jarmangit", version: "1.1.+"
-        classpath group: 'com.github.rholder', name: 'gradle-one-jar', version: '1.0.4'
+        classpath 'com.timgroup:gradle-autobumper:1.1.+'
+        classpath 'com.timgroup:gradle-jarmangit:1.1.+'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
     }
 }
