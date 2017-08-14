@@ -1,10 +1,8 @@
 package com.timgroup.blankapp;
 
-import java.time.Duration;
 import java.util.List;
 
 import com.timgroup.tucker.info.Component;
-import com.timgroup.tucker.info.async.AsyncComponentScheduler;
 import com.timgroup.tucker.info.component.JarVersionComponent;
 import com.timgroup.tucker.info.servlet.ApplicationInformationServlet;
 import com.timgroup.tucker.info.status.StatusPageGenerator;
@@ -19,17 +17,13 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 import static com.timgroup.tucker.info.Health.ALWAYS_HEALTHY;
 import static com.timgroup.tucker.info.Stoppable.ALWAYS_STOPPABLE;
-import static com.timgroup.tucker.info.async.AsyncComponentScheduler.createFromSynchronous;
-import static com.timgroup.tucker.info.async.AsyncSettings.settings;
 
 public class JettyService {
     private final Server infoServer;
-    private final AsyncComponentScheduler scheduler;
 
-    public JettyService(String name, int port, List<Component> components) {
+    public JettyService(String name, int port, List<Component> statusComponents) {
         StatusPageGenerator generator = new StatusPageGenerator(name, new JarVersionComponent(getClass()));
-        this.scheduler = createFromSynchronous(components, settings().withRepeatSchedule(Duration.ofSeconds(10)));
-        scheduler.addComponentsTo(generator);
+        statusComponents.forEach(generator::addComponent);
 
         QueuedThreadPool threadPool = new QueuedThreadPool();
         threadPool.setName("Jetty");
@@ -53,7 +47,6 @@ public class JettyService {
     }
 
     public void start() {
-        scheduler.start();
         try {
             infoServer.start();
         } catch (Exception e) {
@@ -65,11 +58,6 @@ public class JettyService {
         try {
             infoServer.stop();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            scheduler.stop();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
