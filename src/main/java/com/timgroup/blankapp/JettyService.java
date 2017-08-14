@@ -11,6 +11,8 @@ import com.timgroup.tucker.info.status.StatusPageGenerator;
 import org.eclipse.jetty.server.NetworkConnector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.StatisticsHandler;
+import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -40,7 +42,14 @@ public class JettyService {
         ServletContextHandler servletContextHandler = new ServletContextHandler();
         servletContextHandler.setContextPath("/");
         servletContextHandler.addServlet(new ServletHolder("tucker", new ApplicationInformationServlet(generator, ALWAYS_STOPPABLE, ALWAYS_HEALTHY)), "/info/*");
-        infoServer.setHandler(servletContextHandler);
+
+        GzipHandler gzipHandler = new GzipHandler();
+        gzipHandler.setHandler(servletContextHandler);
+
+        StatisticsHandler statisticsHandler = new StatisticsHandler();
+        statisticsHandler.setHandler(gzipHandler);
+
+        infoServer.setHandler(statisticsHandler);
     }
 
     public void start() {
