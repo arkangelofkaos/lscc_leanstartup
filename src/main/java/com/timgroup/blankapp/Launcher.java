@@ -10,7 +10,6 @@ import java.util.TimeZone;
 
 import com.timgroup.logger.FilebeatAppender;
 import com.timgroup.structuredevents.Slf4jEventSink;
-import org.slf4j.LoggerFactory;
 
 import static java.lang.Runtime.getRuntime;
 
@@ -61,7 +60,7 @@ public class Launcher {
         Properties config = loadConfig(args[0]);
         setUpLogging(config);
         setUpMetrics(config);
-        App app = new App(config, new Slf4jEventSink(LoggerFactory.getLogger(App.class)));
+        App app = new App(config, new Slf4jEventSink());
 
         app.start();
 
