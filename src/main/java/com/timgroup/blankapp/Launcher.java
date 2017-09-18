@@ -37,12 +37,10 @@ public class Launcher {
 
     private static void setUpMetrics(MetricRegistry registry, Properties config) {
         MetricsConfig metricsConfig = metricsConfig(config);
-        if (metricsConfig.enabled()) {
-            Metrics metrics = new Metrics(registry, metricsConfig);
-            metrics.addJvmMetrics();
-            metrics.start();
-            Runtime.getRuntime().addShutdownHook(new Thread(metrics::stop, "metrics-shutdown"));
-        }
+        Metrics metrics = new Metrics(registry, metricsConfig);
+        metrics.addJvmMetrics();
+        metrics.start();
+        Runtime.getRuntime().addShutdownHook(new Thread(metrics::stop, "metrics-shutdown"));
     }
 
     private static MetricsConfig metricsConfig(final Properties config) {
