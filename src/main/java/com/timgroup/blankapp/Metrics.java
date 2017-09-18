@@ -1,5 +1,8 @@
 package com.timgroup.blankapp;
 
+import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
+
 import com.codahale.metrics.JvmAttributeGaugeSet;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
@@ -9,16 +12,13 @@ import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.TimeUnit;
-
 public final class Metrics {
     private final MetricRegistry registry;
 
     private final GraphiteReporter graphiteReporter;
 
-    public Metrics(MetricsConfig config) {
-        registry = new MetricRegistry();
+    public Metrics(MetricRegistry registry, MetricsConfig config) {
+        this.registry = registry;
         graphiteReporter = makeReporter(config);
     }
 

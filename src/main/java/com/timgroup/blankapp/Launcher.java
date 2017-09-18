@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.TimeZone;
 
+import com.codahale.metrics.MetricRegistry;
 import com.timgroup.logger.FilebeatAppender;
 import com.timgroup.structuredevents.Slf4jEventSink;
 
@@ -34,11 +35,14 @@ public class Launcher {
         System.setProperty("timgroup.app.version", Optional.ofNullable(Launcher.class.getPackage().getImplementationVersion()).orElse(""));
     }
 
-    private static void setUpMetrics(Properties config) {
-        Metrics metrics = new Metrics(metricsConfig(config));
-        metrics.addJvmMetrics();
-        metrics.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(metrics::stop, "metrics-shutdown"));
+    private static void setUpMetrics(MetricRegistry registry, Properties config) {
+        MetricsConfig metricsConfig = metricsConfig(config);
+        if (metricsConfig.enabled()) {
+            Metrics metrics = new Metrics(registry, metricsConfig);
+            metrics.addJvmMetrics();
+            metrics.start();
+            Runtime.getRuntime().addShutdownHook(new Thread(metrics::stop, "metrics-shutdown"));
+        }
     }
 
     private static MetricsConfig metricsConfig(final Properties config) {
@@ -59,8 +63,9 @@ public class Launcher {
         setUpTimezone();
         Properties config = loadConfig(args[0]);
         setUpLogging(config);
-        setUpMetrics(config);
         App app = new App(config, new Slf4jEventSink());
+
+        setUpMetrics(app.getMetrics(), config);
 
         app.start();
 

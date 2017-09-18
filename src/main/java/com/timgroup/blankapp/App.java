@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
+import com.codahale.metrics.MetricRegistry;
 import com.timgroup.structuredevents.EventSink;
 import com.timgroup.structuredevents.heartbeat.LoggingHeartbeatScheduler;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
@@ -28,6 +29,7 @@ public class App {
     private final Map<String, Object> configParameters;
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final AsyncComponentScheduler statusComponentScheduler;
+    private final MetricRegistry metrics = new MetricRegistry();
 
     public App(Properties config, EventSink eventSink) {
         int port = Optional.ofNullable(config.getProperty("port")).map(Integer::parseInt).orElseThrow(() -> new IllegalStateException("No 'port' property"));
@@ -43,6 +45,10 @@ public class App {
 
     public int port() {
         return jettyService.port();
+    }
+
+    public MetricRegistry getMetrics() {
+        return metrics;
     }
 
     public void start() {
