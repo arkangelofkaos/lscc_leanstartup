@@ -1,7 +1,5 @@
 package com.timgroup.blankapp;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,7 +10,6 @@ import com.timgroup.structuredevents.EventSink;
 import com.timgroup.structuredevents.heartbeat.LoggingHeartbeatScheduler;
 import com.timgroup.structuredevents.standardevents.ApplicationStarted;
 import com.timgroup.tucker.info.Component;
-import com.timgroup.tucker.info.async.AsyncComponent;
 import com.timgroup.tucker.info.async.AsyncComponentScheduler;
 import com.timgroup.tucker.info.component.JvmVersionComponent;
 import org.slf4j.Logger;
@@ -34,7 +31,7 @@ public class App {
     public App(Properties config, EventSink eventSink) {
         int port = Optional.ofNullable(config.getProperty("port")).map(Integer::parseInt).orElseThrow(() -> new IllegalStateException("No 'port' property"));
         List<Component> statusComponents = singletonList(new JvmVersionComponent());
-        this.statusComponentScheduler = AsyncComponentScheduler.createFromAsync(asyncComponentsIn(statusComponents));
+        this.statusComponentScheduler = AsyncComponentScheduler.createFromAsyncComponentsIn(statusComponents);;
         this.jettyService = new JettyService(AppName,
                                              port,
                                              statusComponents);
@@ -71,15 +68,5 @@ public class App {
             log.warn("Ignoring exception stopping status component scheduler: " + e);
         }
         loggingHeartbeatScheduler.stop();
-    }
-
-    private static List<AsyncComponent> asyncComponentsIn(Collection<? extends Component> components) {
-        List<AsyncComponent> output = new ArrayList<>(components.size());
-        components.forEach(c -> {
-            if (c instanceof AsyncComponent) {
-                output.add((AsyncComponent) c);
-            }
-        });
-        return output;
     }
 }
