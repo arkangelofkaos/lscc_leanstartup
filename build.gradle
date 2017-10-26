@@ -75,36 +75,6 @@ task runShadow(type: Exec, dependsOn: shadowJar) {
     commandLine 'java', '-jar', tasks.shadowJar.archivePath, 'config.properties'
 }
 
-apply plugin: 'maven-publish'
-
-publishing {
-    repositories {
-        maven {
-            url "${project.repoUrl}/repositories/yd-release-candidates"
-            credentials {
-                username = project.repoUsername
-                password = project.repoPassword
-            }
-        }
-    }
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId project.ext.has('artifactId') ? project.ext.artifactId
-                    : project == rootProject ? project.name
-                    : rootProject.name + "-" + project.name
-            from components.java
-            artifact(sourcesJar) {
-                classifier "sources"
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
 buildscript {
     repositories {
         maven {
