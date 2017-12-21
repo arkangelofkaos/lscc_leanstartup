@@ -1,7 +1,9 @@
-apply plugin: 'java'
-apply plugin: 'com.timgroup.autobumper'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'com.timgroup.jarmangit'
+plugins {
+    id "java"
+    id "com.timgroup.autobumper" version "1.1.1028"
+    id "com.timgroup.jarmangit" version "1.1.86"
+    id "com.github.johnrengelman.shadow" version "2.0.2"
+}
 
 ext {
     buildNumber = System.getenv("BUILD_NUMBER") ?: System.getenv("TRAVIS_BUILD_NUMBER")
@@ -73,18 +75,4 @@ assemble.dependsOn(shadowJar)
 
 task runShadow(type: Exec, dependsOn: shadowJar) {
     commandLine 'java', '-jar', tasks.shadowJar.archivePath, 'config.properties'
-}
-
-buildscript {
-    repositories {
-        maven {
-            url "${repoUrl}/groups/public"
-        }
-    }
-
-    dependencies {
-        classpath 'com.timgroup:gradle-autobumper:1.1.+'
-        classpath 'com.timgroup:gradle-jarmangit:1.1.+'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
-    }
 }

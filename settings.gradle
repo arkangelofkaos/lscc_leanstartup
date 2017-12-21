@@ -1,1 +1,10 @@
+pluginManagement {
+    repositories {
+        maven {
+            name "nexus"
+            url "${repoUrl}/groups/public"
+        }
+    }
+}
+
 rootProject.name="blank-java-worker-app"
