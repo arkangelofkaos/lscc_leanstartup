@@ -47,6 +47,8 @@ tasks.withType(JavaCompile).all {
 }
 
 task run(type: JavaExec) {
+    group = "run"
+    description = "Run application using regular and library jars"
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args += 'config.properties'
@@ -74,5 +76,7 @@ shadowJar {
 assemble.dependsOn(shadowJar)
 
 task runShadow(type: Exec, dependsOn: shadowJar) {
+    group = "run"
+    description = "Run application from shadow-jar, just like as deployed"
     commandLine 'java', '-jar', tasks.shadowJar.archivePath, 'config.properties'
 }
