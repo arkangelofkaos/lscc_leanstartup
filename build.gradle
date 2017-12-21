@@ -37,7 +37,7 @@ dependencies {
     testCompile 'org.apache.httpcomponents:httpclient:4.4.1'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).all {
     sourceCompatibility = "1.8"
     targetCompatibility = "1.8"
     options.encoding = "UTF-8"
@@ -52,7 +52,7 @@ task run(type: JavaExec) {
     args += 'config.properties'
 }
 
-jar {
+tasks.withType(Jar).all {
     manifest {
         attributes(
                 'Implementation-Title': project.name,
