@@ -45,7 +45,7 @@ public class LeanStartupTest {
         int secondTimePriceWithDiscount = leanStartup.getPrice("Mele");
 
         assertThat(firstTimePrice, Matchers.is(100));
-        assertThat(secondTimePriceWithDiscount, Matchers.is(50));
+        assertThat(secondTimePriceWithDiscount, Matchers.is(0));
     }
 
     @Test

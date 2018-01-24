@@ -99,7 +99,7 @@ public class LeanStartup {
         if (item.equals("Mele")) {
             if (meleOrderedBefore) {
                 meleOrderedBefore = false;
-                return 50;
+                return 100;
             } else {
                 meleOrderedBefore = true;
             }
