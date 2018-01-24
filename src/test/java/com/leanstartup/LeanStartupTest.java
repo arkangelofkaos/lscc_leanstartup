@@ -68,4 +68,10 @@ public class LeanStartupTest {
         assertThat(price, Matchers.is(250));
     }
 
+    @Test
+    public void fiveFruitDiscount() {
+        int price = leanStartup.getBasketPrice("Mele,Pommes,Pommes,Mele,Apples");
+        assertThat(price, Matchers.is(150));
+    }
+
 }

@@ -23,8 +23,7 @@ public class LeanStartup {
             Integer price = 0;
 
             if (input.contains(",")) {
-                LeanStartup basket = new LeanStartup();
-                System.out.println(basket.getBasketPrice(input));
+                price = leanStartup.getBasketPrice(input);
             } else {
                 price = leanStartup.getPrice(input);
             }
@@ -42,6 +41,7 @@ public class LeanStartup {
     private boolean meleOrderedBefore = false;
     private int countPommes = 0;
     private int countAllApples = 0;
+    private int countAll = 0;
 
 
     public int getBasketPrice(String basket) {
@@ -70,6 +70,8 @@ public class LeanStartup {
 
 
         discount = getAllApplesDiscount(item, discount);
+        discount = getFiveFruitDiscount(item, discount);
+
 
         int finalDiscount = discount;
         return Optional.ofNullable(itemPrices.get(item))
@@ -132,6 +134,22 @@ public class LeanStartup {
             if (countAllApples == 4) {
                 countAllApples = 0;
                 return discount + 100;
+            }
+        }
+        return discount;
+    }
+
+    private int getFiveFruitDiscount(String item, int discount) {
+        if (item.equals("Pommes") ||
+                item.equals("Mele") ||
+                item.equals("Apples") ||
+                item.equals("Cherries") ||
+                item.equals("Bananas")
+                ) {
+            countAll++;
+            if (countAll == 5) {
+                countAll = 0;
+                return discount + 200;
             }
         }
         return discount;
