@@ -15,6 +15,8 @@ public class LeanStartupTest {
 
         assertThat(new LeanStartup().getPrice("Cherries"), Matchers.equalTo(75));
         assertThat(new LeanStartup().getPrice("Bananas"), Matchers.equalTo(150));
+        assertThat(new LeanStartup().getPrice("Pommes"), Matchers.equalTo(100));
+        assertThat(new LeanStartup().getPrice("Mele"), Matchers.equalTo(100));
     }
 
     @Test

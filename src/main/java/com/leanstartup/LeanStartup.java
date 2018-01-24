@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class LeanStartup {
 
-    public static final int CHERRY_DISCOUNT = 20;
+    private static final int CHERRY_DISCOUNT = 20;
+    private static final int BANANA_DISCOUNT = 150;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -49,12 +50,13 @@ public class LeanStartup {
     public Integer getPrice(String item) {
         Map<String, Integer> itemPrices = new HashMap<String, Integer>() {{
             put("Apples", 100);
+            put("Mele", 100);
+            put("Pommes", 100);
             put("Bananas", 150);
             put("Cherries", 75);
         }};
 
         int discount = 0;
-
         discount = getCherriesDiscount(item, discount);
         discount = getBananasDiscount(item, discount);
 
@@ -80,7 +82,7 @@ public class LeanStartup {
         if (item.equals("Bananas")) {
             if (bananasOrderedBefore) {
                 bananasOrderedBefore = false;
-                return 150;
+                return BANANA_DISCOUNT;
             } else {
                 bananasOrderedBefore = true;
             }
