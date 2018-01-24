@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class LeanStartup {
 
+    public static final int CHERRY_DISCOUNT = 20;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -66,7 +68,7 @@ public class LeanStartup {
         if (item.equals("Cherries")) {
             if (cherriesOrderedBefore) {
                 cherriesOrderedBefore = false;
-                return 30;
+                return CHERRY_DISCOUNT;
             } else {
                 cherriesOrderedBefore = true;
             }
