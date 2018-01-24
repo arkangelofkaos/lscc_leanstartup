@@ -37,6 +37,7 @@ public class LeanStartup {
 
     private boolean cherriesOrderedBefore = false;
     private boolean bananasOrderedBefore = false;
+    private boolean meleOrderedBefore = false;
     private int countPommes = 0;
 
 
@@ -62,6 +63,7 @@ public class LeanStartup {
         discount = getCherriesDiscount(item, discount);
         discount = getBananasDiscount(item, discount);
         discount = getPommesDiscount(item, discount);
+        discount = getMeleDiscount(item, discount);
 
         int finalDiscount = discount;
         return Optional.ofNullable(itemPrices.get(item))
@@ -88,6 +90,18 @@ public class LeanStartup {
                 return BANANA_DISCOUNT;
             } else {
                 bananasOrderedBefore = true;
+            }
+        }
+        return discount;
+    }
+
+    private int getMeleDiscount(String item, int discount) {
+        if (item.equals("Mele")) {
+            if (meleOrderedBefore) {
+                meleOrderedBefore = false;
+                return 50;
+            } else {
+                meleOrderedBefore = true;
             }
         }
         return discount;
