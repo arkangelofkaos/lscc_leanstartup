@@ -32,6 +32,7 @@ public class LeanStartup {
 
 
     private boolean cherriesOrderedBefore = false;
+    private boolean bananasOrderedBefore = false;
 
 
     public int getBasketPrice(String basket) {
@@ -51,18 +52,37 @@ public class LeanStartup {
         }};
 
         int discount = 0;
-        if (item.equals("Cherries")) {
-            if (cherriesOrderedBefore) {
-                discount = 20;
-                cherriesOrderedBefore = false;
-            } else {
-                cherriesOrderedBefore = true;
-            }
-        }
+
+        discount = getCherriesDiscount(item, discount);
+        discount = getBananasDiscount(item, discount);
 
         int finalDiscount = discount;
         return Optional.ofNullable(itemPrices.get(item))
                 .map(price -> price - finalDiscount)
                 .orElse(0);
+    }
+
+    private int getCherriesDiscount(String item, int discount) {
+        if (item.equals("Cherries")) {
+            if (cherriesOrderedBefore) {
+                cherriesOrderedBefore = false;
+                return 30;
+            } else {
+                cherriesOrderedBefore = true;
+            }
+        }
+        return discount;
+    }
+
+    private int getBananasDiscount(String item, int discount) {
+        if (item.equals("Bananas")) {
+            if (bananasOrderedBefore) {
+                bananasOrderedBefore = false;
+                return 150;
+            } else {
+                bananasOrderedBefore = true;
+            }
+        }
+        return discount;
     }
 }

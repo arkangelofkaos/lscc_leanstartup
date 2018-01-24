@@ -26,13 +26,13 @@ public class LeanStartupTest {
         int priceWithDiscount = leanStartup.getPrice("Cherries");
 
         assertThat(firstTimePrice, Matchers.is(75));
-        assertThat(priceWithDiscount, Matchers.is(55));
+        assertThat(priceWithDiscount, Matchers.is(45));
     }
 
     @Test
     public void acceptCsv() {
         int price = leanStartup.getBasketPrice("Cherries,Cherries");
-        assertThat(price, Matchers.is(130));
+        assertThat(price, Matchers.is(120));
 
     }
 
