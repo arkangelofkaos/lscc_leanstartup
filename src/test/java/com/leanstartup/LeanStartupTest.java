@@ -1,13 +1,20 @@
 package com.leanstartup;
 
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertThat;
 
 public class LeanStartupTest {
     String test = "Mele,Pommes,Pommes,Apples,Pommes,Mele,Cherries,Cherries,Bananas";
-    LeanStartup leanStartup = new LeanStartup();
+
+    LeanStartup leanStartup = null;
+
+    @Before
+    public void setup() {
+        leanStartup = new LeanStartup();
+    }
 
     @Test
     public void shouldReturnThePriceForGivenItem() {
@@ -46,14 +53,19 @@ public class LeanStartupTest {
         int secondTimePriceWithDiscount = leanStartup.getPrice("Mele");
 
         assertThat(firstTimePrice, Matchers.is(100));
-        assertThat(secondTimePriceWithDiscount, Matchers.is(0));
+        assertThat(secondTimePriceWithDiscount, Matchers.is(50));
     }
 
     @Test
     public void acceptCsv() {
         int price = leanStartup.getBasketPrice("Cherries,Cherries");
         assertThat(price, Matchers.is(130));
+    }
 
+    @Test
+    public void acceptApplesCsv() {
+        int price = leanStartup.getBasketPrice("Mele,Pommes,Pommes,Mele");
+        assertThat(price, Matchers.is(250));
     }
 
 }
