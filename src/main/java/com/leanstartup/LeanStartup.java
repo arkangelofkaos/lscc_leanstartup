@@ -9,8 +9,8 @@ public class LeanStartup {
 
     private static final int CHERRY_DISCOUNT = 20;
     private static final int BANANA_DISCOUNT = 150;
-    public static final int POMMES_DISCOUNT = 100;
-    public static final int MELE_DISCOUNT = 50;
+    private static final int POMMES_DISCOUNT = 100;
+    private static final int MELE_DISCOUNT = 50;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -20,7 +20,7 @@ public class LeanStartup {
 
         while (sc.hasNext()) {
             String input = sc.nextLine();
-            Integer price = 0;
+            Integer price;
 
             if (input.contains(",")) {
                 price = leanStartup.getBasketPrice(input);
