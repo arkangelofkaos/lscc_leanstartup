@@ -9,6 +9,7 @@ public class LeanStartup {
 
     private static final int CHERRY_DISCOUNT = 20;
     private static final int BANANA_DISCOUNT = 150;
+    public static final int POMMES_DISCOUNT = 100;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -36,6 +37,7 @@ public class LeanStartup {
 
     private boolean cherriesOrderedBefore = false;
     private boolean bananasOrderedBefore = false;
+    private int countPommes = 0;
 
 
     public int getBasketPrice(String basket) {
@@ -59,6 +61,7 @@ public class LeanStartup {
         int discount = 0;
         discount = getCherriesDiscount(item, discount);
         discount = getBananasDiscount(item, discount);
+        discount = getPommesDiscount(item, discount);
 
         int finalDiscount = discount;
         return Optional.ofNullable(itemPrices.get(item))
@@ -85,6 +88,17 @@ public class LeanStartup {
                 return BANANA_DISCOUNT;
             } else {
                 bananasOrderedBefore = true;
+            }
+        }
+        return discount;
+    }
+
+    private int getPommesDiscount(String item, int discount) {
+        if (item.equals("Pommes")) {
+            countPommes++;
+            if (countPommes == 3) {
+                countPommes = 0;
+                return POMMES_DISCOUNT;
             }
         }
         return discount;

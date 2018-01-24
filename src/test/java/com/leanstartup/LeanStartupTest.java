@@ -29,6 +29,17 @@ public class LeanStartupTest {
     }
 
     @Test
+    public void applyPommesDiscount() {
+        int firstTimePrice = leanStartup.getPrice("Pommes");
+        int secondTimePrice = leanStartup.getPrice("Pommes");
+        int thirdTimePriceWithDiscount = leanStartup.getPrice("Pommes");
+
+        assertThat(firstTimePrice, Matchers.is(100));
+        assertThat(secondTimePrice, Matchers.is(100));
+        assertThat(thirdTimePriceWithDiscount, Matchers.is(0));
+    }
+
+    @Test
     public void acceptCsv() {
         int price = leanStartup.getBasketPrice("Cherries,Cherries");
         assertThat(price, Matchers.is(130));
