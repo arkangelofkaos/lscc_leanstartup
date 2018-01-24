@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertThat;
 
 public class LeanStartupTest {
+    String test = "Mele,Pommes,Pommes,Apples,Pommes,Mele,Cherries,Cherries,Bananas";
     LeanStartup leanStartup = new LeanStartup();
 
     @Test

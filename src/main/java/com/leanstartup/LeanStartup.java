@@ -19,18 +19,19 @@ public class LeanStartup {
 
         while (sc.hasNext()) {
             String input = sc.nextLine();
-            Integer price;
+            Integer price = 0;
 
-//            if (input.contains(",")) {
-//                price = leanStartup.getBasketPrice(input);
-//            } else {
+            if (input.contains(",")) {
+                LeanStartup basket = new LeanStartup();
+                System.out.println(basket.getBasketPrice(input));
+            } else {
                 price = leanStartup.getPrice(input);
-//            }
-
-            if (price != null) {
-                total += price;
             }
-            System.out.println(total);
+
+            if (price != 0) {
+                total += price;
+                System.out.println(total);
+            }
         }
     }
 
