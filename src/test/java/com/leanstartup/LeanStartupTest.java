@@ -19,9 +19,6 @@ public class LeanStartupTest {
 
     @Test
     public void recordTheStateOfUsersBasket() {
-        String firstCherries = "Cherries";
-        String secondCherries = "Cherries";
-
         int firstTimePrice = leanStartup.getPrice("Cherries");
         int priceWithDiscount = leanStartup.getPrice("Cherries");
 
