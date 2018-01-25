@@ -17,17 +17,17 @@ public class CheckoutTest {
 
     @Test
     public void shouldReturnTheBasePriceForItems() {
-        assertThat(new Checkout().getPrice("Apples"), Matchers.equalTo(100));
-        assertThat(new Checkout().getPrice("Cherries"), Matchers.equalTo(75));
-        assertThat(new Checkout().getPrice("Bananas"), Matchers.equalTo(150));
-        assertThat(new Checkout().getPrice("Pommes"), Matchers.equalTo(100));
-        assertThat(new Checkout().getPrice("Mele"), Matchers.equalTo(100));
+        assertThat(new Checkout().scan("Apples"), Matchers.equalTo(100));
+        assertThat(new Checkout().scan("Cherries"), Matchers.equalTo(75));
+        assertThat(new Checkout().scan("Bananas"), Matchers.equalTo(150));
+        assertThat(new Checkout().scan("Pommes"), Matchers.equalTo(100));
+        assertThat(new Checkout().scan("Mele"), Matchers.equalTo(100));
     }
 
     @Test
     public void applyCherriesDiscount() {
-        int firstTimePrice = checkout.getPrice("Cherries");
-        int priceWithDiscount = checkout.getPrice("Cherries");
+        int firstTimePrice = checkout.scan("Cherries");
+        int priceWithDiscount = checkout.scan("Cherries");
 
         assertThat(firstTimePrice, is(75));
         assertThat(priceWithDiscount, is(55));
@@ -35,9 +35,9 @@ public class CheckoutTest {
 
     @Test
     public void applyPommesDiscount() {
-        int firstTimePrice = checkout.getPrice("Pommes");
-        int secondTimePrice = checkout.getPrice("Pommes");
-        int thirdTimePriceWithDiscount = checkout.getPrice("Pommes");
+        int firstTimePrice = checkout.scan("Pommes");
+        int secondTimePrice = checkout.scan("Pommes");
+        int thirdTimePriceWithDiscount = checkout.scan("Pommes");
 
         assertThat(firstTimePrice, is(100));
         assertThat(secondTimePrice, is(100));
@@ -46,8 +46,8 @@ public class CheckoutTest {
 
     @Test
     public void applyMeleDiscount() {
-        int firstTimePrice = checkout.getPrice("Mele");
-        int secondTimePriceWithDiscount = checkout.getPrice("Mele");
+        int firstTimePrice = checkout.scan("Mele");
+        int secondTimePriceWithDiscount = checkout.scan("Mele");
 
         assertThat(firstTimePrice, is(100));
         assertThat(secondTimePriceWithDiscount, is(50));

@@ -19,13 +19,13 @@ public class Checkout {
         int total = 0;
 
         while (sc.hasNext()) {
-            String input = sc.nextLine();
+            String item = sc.nextLine();
             Integer price;
 
-            if (input.contains(",")) {
-                price = checkout.getBasketPrice(input);
+            if (item.contains(",")) {
+                price = checkout.getBasketPrice(item);
             } else {
-                price = checkout.getPrice(input);
+                price = checkout.scan(item);
             }
 
             if (price != 0) {
@@ -48,12 +48,12 @@ public class Checkout {
         String[] items = basket.split(",");
         int total = 0;
         for (String item : items) {
-            total += getPrice(item);
+            total += scan(item);
         }
         return total;
     }
 
-    public Integer getPrice(String item) {
+    public Integer scan(String item) {
         Map<String, Integer> itemPrices = new HashMap<String, Integer>() {{
             put("Apples", 100);
             put("Mele", 100);
