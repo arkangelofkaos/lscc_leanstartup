@@ -27,6 +27,10 @@ public class CheckoutTest {
     @Test
     public void shouldReturnTotalPriceForItems() {
         assertThat(checkout.getTotalPrice(), is(0));
+        checkout.scan("Apples");
+        assertThat(checkout.getTotalPrice(), is(100));
+        checkout.scanBasket("Cherries,Bananas");
+        assertThat(checkout.getTotalPrice(), is(325));
     }
 
     @Test

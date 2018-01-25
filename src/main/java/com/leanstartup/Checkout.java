@@ -39,12 +39,13 @@ public class Checkout {
     private boolean cherriesOrderedBefore = false;
     private boolean bananasOrderedBefore = false;
     private boolean meleOrderedBefore = false;
+    private int totalPrice = 0;
     private int countPommes = 0;
     private int countAllApples = 0;
     private int countAll = 0;
 
     public int getTotalPrice() {
-        return 0;
+        return totalPrice;
     }
 
     public int scanBasket(String basketCsv) {
@@ -77,9 +78,11 @@ public class Checkout {
 
 
         int finalDiscount = discount;
-        return Optional.ofNullable(itemPrices.get(item))
+        int finalPrice = Optional.ofNullable(itemPrices.get(item))
                 .map(price -> price - finalDiscount)
                 .orElse(0);
+        totalPrice += finalPrice;
+        return finalPrice;
     }
 
     private int getCherriesDiscount(String item, int discount) {
