@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class LeanStartup {
+public class Checkout {
 
     private static final int CHERRY_DISCOUNT = 20;
     private static final int BANANA_DISCOUNT = 150;
@@ -15,7 +15,7 @@ public class LeanStartup {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        LeanStartup leanStartup = new LeanStartup();
+        Checkout checkout = new Checkout();
         int total = 0;
 
         while (sc.hasNext()) {
@@ -23,9 +23,9 @@ public class LeanStartup {
             Integer price;
 
             if (input.contains(",")) {
-                price = leanStartup.getBasketPrice(input);
+                price = checkout.getBasketPrice(input);
             } else {
-                price = leanStartup.getPrice(input);
+                price = checkout.getPrice(input);
             }
 
             if (price != 0) {
