@@ -25,6 +25,11 @@ public class CheckoutTest {
     }
 
     @Test
+    public void shouldReturnTotalPriceForItems() {
+        assertThat(checkout.getTotalPrice(), is(0));
+    }
+
+    @Test
     public void applyCherriesDiscount() {
         int firstTimePrice = checkout.scan("Cherries");
         int priceWithDiscount = checkout.scan("Cherries");
@@ -55,26 +60,26 @@ public class CheckoutTest {
 
     @Test
     public void acceptCsv() {
-        int price = checkout.getBasketPrice("Cherries,Cherries");
+        int price = checkout.scanBasket("Cherries,Cherries");
         assertThat(price, is(130));
     }
 
     @Test
     public void acceptApplesCsv() {
-        int price = checkout.getBasketPrice("Mele,Pommes,Pommes,Mele");
+        int price = checkout.scanBasket("Mele,Pommes,Pommes,Mele");
         assertThat(price, is(250));
     }
 
     @Test
     public void applyFiveFruitDiscount() {
-        int price = checkout.getBasketPrice("Mele,Pommes,Pommes,Mele,Apples");
+        int price = checkout.scanBasket("Mele,Pommes,Pommes,Mele,Apples");
         assertThat(price, is(150));
     }
 
     @Test
     public void calculatePriceForCsv_withMultipleActiveDiscounts() {
         String basket = "Mele,Pommes,Pommes,Apples,Pommes,Mele,Cherries,Cherries,Bananas";
-        int price = checkout.getBasketPrice(basket);
+        int price = checkout.scanBasket(basket);
         assertThat(price, is(430));
     }
 

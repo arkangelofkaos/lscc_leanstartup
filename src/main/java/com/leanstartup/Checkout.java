@@ -23,7 +23,7 @@ public class Checkout {
             Integer price;
 
             if (item.contains(",")) {
-                price = checkout.getBasketPrice(item);
+                price = checkout.scanBasket(item);
             } else {
                 price = checkout.scan(item);
             }
@@ -43,9 +43,12 @@ public class Checkout {
     private int countAllApples = 0;
     private int countAll = 0;
 
+    public int getTotalPrice() {
+        return 0;
+    }
 
-    public int getBasketPrice(String basket) {
-        String[] items = basket.split(",");
+    public int scanBasket(String basketCsv) {
+        String[] items = basketCsv.split(",");
         int total = 0;
         for (String item : items) {
             total += scan(item);
