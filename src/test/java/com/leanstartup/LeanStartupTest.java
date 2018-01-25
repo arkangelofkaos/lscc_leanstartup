@@ -7,9 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertThat;
 
 public class LeanStartupTest {
-    String test = "Mele,Pommes,Pommes,Apples,Pommes,Mele,Cherries,Cherries,Bananas";
-
-    LeanStartup leanStartup = null;
+    private LeanStartup leanStartup = null;
 
     @Before
     public void setup() {
@@ -72,6 +70,13 @@ public class LeanStartupTest {
     public void fiveFruitDiscount() {
         int price = leanStartup.getBasketPrice("Mele,Pommes,Pommes,Mele,Apples");
         assertThat(price, Matchers.is(150));
+    }
+
+    @Test
+    public void calculatePriceForCsv_withMultipleActiveDiscounts() {
+        String test = "Mele,Pommes,Pommes,Apples,Pommes,Mele,Cherries,Cherries,Bananas";
+        int price = leanStartup.getBasketPrice(test);
+        assertThat(price, Matchers.is(430));
     }
 
 }
