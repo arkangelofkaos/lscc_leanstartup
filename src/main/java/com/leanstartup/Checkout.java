@@ -3,7 +3,6 @@ package com.leanstartup;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Scanner;
 
 public class Checkout {
 
@@ -12,28 +11,6 @@ public class Checkout {
     private static final int POMMES_DISCOUNT = 100;
     private static final int MELE_DISCOUNT = 50;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        Checkout checkout = new Checkout();
-        int total = 0;
-
-        while (sc.hasNext()) {
-            String item = sc.nextLine();
-            Integer price;
-
-            if (item.contains(",")) {
-                price = checkout.scanBasket(item);
-            } else {
-                price = checkout.scan(item);
-            }
-
-            if (price != 0) {
-                total += price;
-                System.out.println(total);
-            }
-        }
-    }
 
 
     private boolean cherriesOrderedBefore = false;
@@ -57,7 +34,7 @@ public class Checkout {
         return total;
     }
 
-    public Integer scan(String item) {
+    public int scan(String item) {
         Map<String, Integer> itemPrices = new HashMap<String, Integer>() {{
             put("Apples", 100);
             put("Mele", 100);

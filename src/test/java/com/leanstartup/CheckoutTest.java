@@ -25,11 +25,15 @@ public class CheckoutTest {
     }
 
     @Test
-    public void shouldReturnTotalPriceForItems() {
+    public void shouldRecordTotalPrice() {
         assertThat(checkout.getTotalPrice(), is(0));
-        checkout.scan("Apples");
+
+        int applePrice = checkout.scan("Apples");
+        assertThat(applePrice, is(100));
         assertThat(checkout.getTotalPrice(), is(100));
-        checkout.scanBasket("Cherries,Bananas");
+
+        int basketPrice = checkout.scanBasket("Cherries,Bananas");
+        assertThat(basketPrice, is(225));
         assertThat(checkout.getTotalPrice(), is(325));
     }
 
