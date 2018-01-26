@@ -6,20 +6,27 @@ import java.util.Optional;
 
 public class Checkout {
 
+    private final Map<String, Integer> ITEM_PRICES = new HashMap<String, Integer>() {{
+        put("Apples", 100);
+        put("Mele", 100);
+        put("Pommes", 100);
+        put("Bananas", 150);
+        put("Cherries", 75);
+    }};
+
     private static final int CHERRY_DISCOUNT = 20;
     private static final int BANANA_DISCOUNT = 150;
     private static final int POMMES_DISCOUNT = 100;
     private static final int MELE_DISCOUNT = 50;
 
-
-
     private boolean cherriesOrderedBefore = false;
     private boolean bananasOrderedBefore = false;
     private boolean meleOrderedBefore = false;
-    private int totalPrice = 0;
     private int countPommes = 0;
     private int countAllApples = 0;
     private int countAll = 0;
+
+    private int totalPrice = 0;
 
     public int getTotalPrice() {
         return totalPrice;
@@ -35,14 +42,6 @@ public class Checkout {
     }
 
     public int scan(String item) {
-        Map<String, Integer> itemPrices = new HashMap<String, Integer>() {{
-            put("Apples", 100);
-            put("Mele", 100);
-            put("Pommes", 100);
-            put("Bananas", 150);
-            put("Cherries", 75);
-        }};
-
         int discount = 0;
         discount = getCherriesDiscount(item, discount);
         discount = getBananasDiscount(item, discount);
@@ -55,7 +54,7 @@ public class Checkout {
 
 
         int finalDiscount = discount;
-        int finalPrice = Optional.ofNullable(itemPrices.get(item))
+        int finalPrice = Optional.ofNullable(ITEM_PRICES.get(item))
                 .map(price -> price - finalDiscount)
                 .orElse(0);
         totalPrice += finalPrice;
