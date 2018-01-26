@@ -1,16 +1,20 @@
 package com.leanstartup;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 
-public class Discount {
+public class Deal {
     private final Predicate<String> itemInDeal;
     private final int activationCount;
     private final int discount;
 
     private int count = 0;
 
-    public Discount(Predicate<String> itemInDeal, int discount, int activationCount) {
-        this.itemInDeal = itemInDeal;
+    public Deal(int discount, int activationCount, String... items) {
+        Set<String> itemSet = new HashSet<>(Arrays.asList(items));
+        this.itemInDeal = itemSet::contains;
         this.discount = discount;
         this.activationCount = activationCount;
     }
