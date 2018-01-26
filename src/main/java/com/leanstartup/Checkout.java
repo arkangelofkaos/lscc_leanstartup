@@ -74,7 +74,7 @@ public class Checkout {
             countBananas++;
             if (countBananas == 2) {
                 countBananas = 0;
-                return CHERRY_DISCOUNT;
+                return BANANA_DISCOUNT;
             }
         }
         return discount;

@@ -47,6 +47,15 @@ public class CheckoutTest {
     }
 
     @Test
+    public void applyBananasBuyOneGetOneFreeDiscount() {
+        int firstTimePrice = checkout.scan("Bananas");
+        int priceWithDiscount = checkout.scan("Bananas");
+
+        assertThat(firstTimePrice, is(150));
+        assertThat(priceWithDiscount, is(0));
+    }
+
+    @Test
     public void applyPommesDiscount() {
         int firstTimePrice = checkout.scan("Pommes");
         int secondTimePrice = checkout.scan("Pommes");
