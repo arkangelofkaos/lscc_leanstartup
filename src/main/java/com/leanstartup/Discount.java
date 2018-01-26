@@ -1,15 +1,28 @@
 package com.leanstartup;
 
-public class Discount {
-    private final String item;
-    private final int basePrice;
+import java.util.function.Predicate;
 
-    public Discount(String item, int basePrice) {
-        this.item = item;
-        this.basePrice = basePrice;
+public class Discount {
+    private final Predicate<String> itemInDeal;
+    private final int activationCount;
+    private final int discount;
+
+    private int count = 0;
+
+    public Discount(Predicate<String> itemInDeal, int discount, int activationCount) {
+        this.itemInDeal = itemInDeal;
+        this.discount = discount;
+        this.activationCount = activationCount;
     }
 
     public int addItem(String item) {
-        return basePrice;
+        if (itemInDeal.test(item)) {
+            count++;
+            if (count == activationCount) {
+                count = 0;
+                return discount;
+            }
+        }
+        return 0;
     }
 }
