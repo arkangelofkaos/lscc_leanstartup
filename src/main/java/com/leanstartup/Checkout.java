@@ -14,22 +14,23 @@ public class Checkout {
         put("Cherries", 75);
     }};
 
-    private static final int BANANA_DISCOUNT = 150;
     private static final int POMMES_DISCOUNT = 100;
     private static final int MELE_DISCOUNT = 50;
 
-    private int countBananas = 0;
     private int countMele = 0;
     private int countPommes = 0;
     private int countAllApples = 0;
     private int countAll = 0;
 
     private final Deal cherriesDeal;
+    private final Deal bananasDeal;
+
 
     private int totalPrice = 0;
 
     public Checkout() {
         this.cherriesDeal = new Deal(20, 2, "Cherries");
+        this.bananasDeal = new Deal(150, 2, "Bananas");
     }
 
     public int getTotalPrice() {
@@ -48,7 +49,7 @@ public class Checkout {
     public int scan(String item) {
         int discount = 0;
         discount += cherriesDeal.addItem(item);
-        discount = getBananasDiscount(item, discount);
+        discount += bananasDeal.addItem(item);
         discount = getPommesDiscount(item, discount);
         discount = getMeleDiscount(item, discount);
         discount = getAllApplesDiscount(item, discount);
@@ -60,17 +61,6 @@ public class Checkout {
                 .orElse(0);
         totalPrice += finalPrice;
         return finalPrice;
-    }
-
-    private int getBananasDiscount(String item, int discount) {
-        if (item.equals("Bananas")) {
-            countBananas++;
-            if (countBananas == 2) {
-                countBananas = 0;
-                return BANANA_DISCOUNT;
-            }
-        }
-        return discount;
     }
 
     private int getMeleDiscount(String item, int discount) {
