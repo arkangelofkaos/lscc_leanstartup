@@ -19,7 +19,7 @@ public class Checkout {
     private static final int POMMES_DISCOUNT = 100;
     private static final int MELE_DISCOUNT = 50;
 
-    private boolean cherriesOrderedBefore = false;
+    private int countCherries = 0;
     private boolean bananasOrderedBefore = false;
     private boolean meleOrderedBefore = false;
     private int countPommes = 0;
@@ -47,11 +47,8 @@ public class Checkout {
         discount = getBananasDiscount(item, discount);
         discount = getPommesDiscount(item, discount);
         discount = getMeleDiscount(item, discount);
-
-
         discount = getAllApplesDiscount(item, discount);
         discount = getFiveFruitDiscount(item, discount);
-
 
         int finalDiscount = discount;
         int finalPrice = Optional.ofNullable(ITEM_PRICES.get(item))
@@ -63,11 +60,10 @@ public class Checkout {
 
     private int getCherriesDiscount(String item, int discount) {
         if (item.equals("Cherries")) {
-            if (cherriesOrderedBefore) {
-                cherriesOrderedBefore = false;
+            countCherries++;
+            if (countCherries == 2) {
+                countCherries = 0;
                 return CHERRY_DISCOUNT;
-            } else {
-                cherriesOrderedBefore = true;
             }
         }
         return discount;
