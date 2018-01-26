@@ -20,7 +20,7 @@ public class Checkout {
     private static final int MELE_DISCOUNT = 50;
 
     private int countCherries = 0;
-    private boolean bananasOrderedBefore = false;
+    private int countBananas = 0;
     private boolean meleOrderedBefore = false;
     private int countPommes = 0;
     private int countAllApples = 0;
@@ -71,11 +71,10 @@ public class Checkout {
 
     private int getBananasDiscount(String item, int discount) {
         if (item.equals("Bananas")) {
-            if (bananasOrderedBefore) {
-                bananasOrderedBefore = false;
-                return BANANA_DISCOUNT;
-            } else {
-                bananasOrderedBefore = true;
+            countBananas++;
+            if (countBananas == 2) {
+                countBananas = 0;
+                return CHERRY_DISCOUNT;
             }
         }
         return discount;
