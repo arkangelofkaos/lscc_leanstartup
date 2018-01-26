@@ -21,7 +21,7 @@ public class Checkout {
 
     private int countCherries = 0;
     private int countBananas = 0;
-    private boolean meleOrderedBefore = false;
+    private int countMele = 0;
     private int countPommes = 0;
     private int countAllApples = 0;
     private int countAll = 0;
@@ -82,11 +82,10 @@ public class Checkout {
 
     private int getMeleDiscount(String item, int discount) {
         if (item.equals("Mele")) {
-            if (meleOrderedBefore) {
-                meleOrderedBefore = false;
+            countMele++;
+            if (countMele == 2) {
+                countMele = 0;
                 return MELE_DISCOUNT;
-            } else {
-                meleOrderedBefore = true;
             }
         }
         return discount;
