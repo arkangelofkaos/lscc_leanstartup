@@ -1,6 +1,8 @@
 package com.leanstartup;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,23 +16,18 @@ public class Checkout {
         put("Cherries", 75);
     }};
 
-    private static final int POMMES_DISCOUNT = 100;
-    private static final int MELE_DISCOUNT = 50;
-
-    private int countMele = 0;
-    private int countPommes = 0;
-    private int countAllApples = 0;
-    private int countAll = 0;
-
-    private final Deal cherriesDeal;
-    private final Deal bananasDeal;
-
-
+    private final List<Deal> deals;
     private int totalPrice = 0;
 
     public Checkout() {
-        this.cherriesDeal = new Deal(20, 2, "Cherries");
-        this.bananasDeal = new Deal(150, 2, "Bananas");
+        this.deals = Arrays.asList(
+                new Deal(20, 2, "Cherries"),
+                new Deal(150, 2, "Bananas"),
+                new Deal(100, 3, "Pommes"),
+                new Deal(50, 2, "Mele"),
+                new Deal(100, 4, "Pommes", "Mele", "Apples"),
+                new Deal(200, 5, "Pommes", "Mele", "Apples", "Cherries", "Bananas")
+        );
     }
 
     public int getTotalPrice() {
@@ -47,70 +44,14 @@ public class Checkout {
     }
 
     public int scan(String item) {
-        int discount = 0;
-        discount += cherriesDeal.addItem(item);
-        discount += bananasDeal.addItem(item);
-        discount = getPommesDiscount(item, discount);
-        discount = getMeleDiscount(item, discount);
-        discount = getAllApplesDiscount(item, discount);
-        discount = getFiveFruitDiscount(item, discount);
-
-        int finalDiscount = discount;
+        int finalDiscount = deals.stream()
+                .map(deal -> deal.addItem(item))
+                .mapToInt(Integer::intValue)
+                .sum();
         int finalPrice = Optional.ofNullable(ITEM_PRICES.get(item))
                 .map(price -> price - finalDiscount)
                 .orElse(0);
         totalPrice += finalPrice;
         return finalPrice;
-    }
-
-    private int getMeleDiscount(String item, int discount) {
-        if (item.equals("Mele")) {
-            countMele++;
-            if (countMele == 2) {
-                countMele = 0;
-                return MELE_DISCOUNT;
-            }
-        }
-        return discount;
-    }
-
-    private int getPommesDiscount(String item, int discount) {
-        if (item.equals("Pommes")) {
-            countPommes++;
-            if (countPommes == 3) {
-                countPommes = 0;
-                return POMMES_DISCOUNT;
-            }
-        }
-        return discount;
-    }
-
-    private int getAllApplesDiscount(String item, int discount) {
-        if (item.equals("Pommes") ||
-                item.equals("Mele") ||
-                item.equals("Apples")) {
-            countAllApples++;
-            if (countAllApples == 4) {
-                countAllApples = 0;
-                return discount + 100;
-            }
-        }
-        return discount;
-    }
-
-    private int getFiveFruitDiscount(String item, int discount) {
-        if (item.equals("Pommes") ||
-                item.equals("Mele") ||
-                item.equals("Apples") ||
-                item.equals("Cherries") ||
-                item.equals("Bananas")
-                ) {
-            countAll++;
-            if (countAll == 5) {
-                countAll = 0;
-                return discount + 200;
-            }
-        }
-        return discount;
     }
 }
